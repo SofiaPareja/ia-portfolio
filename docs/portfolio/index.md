@@ -5,9 +5,8 @@ date: 2025-01-01
 
 # Portafolio
 
-Bienvenido a las entradas del portafolio. Usá la plantilla para crear nuevas páginas numeradas
-(`01-...`, `02-...`).
+Bienvenido a las entradas del portafolio. 
 
-- Plantilla: [plantilla.md](plantilla.md)
-- Primera entrada: [01-primera-entrada.md](01-primera-entrada.md)
-
+- UT1 - T1 : [EDA titanic y "Feature engineering" simple ](01-T1-titanic.md)
+- UT1 - T4:  [Regresion lineal](01-T4-regresion-lineal.md)
+- UT1 - T5: [Validación y selección modelos](01-T5-validacion-seleccion-modelos.md)
