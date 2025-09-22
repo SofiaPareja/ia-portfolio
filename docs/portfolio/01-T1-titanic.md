@@ -34,7 +34,8 @@ Se formularon hipótesis iniciales:
 
 Respecto a la calidad de los datos:  
 - `Cabin` presentó demasiados valores faltantes, por lo que se eliminó.  
-- `Age` se imputó utilizando la media.  
+- `Age` se imputó utilizando la media. 
+- `Name` → considerado ruido para la predicción. 
 
 Para el modelado, se implementó primero un **DummyClassifier**. Luego, un modelo de **Regresión Logística** utilizando `train_test_split`, con `stratify` para mantener la proporción de clases y `random_state` para garantizar reproducibilidad. Se analizaron parámetros clave como `penalty`, `C`, `solver` y `max_iter`.  
 
@@ -46,6 +47,24 @@ La evaluación se realizó con métricas de clasificación (`accuracy`, `precisi
 - Gráficos de correlación (`Pclass` vs `Fare`).  
 - Reporte de métricas comparando DummyClassifier y Regresión Logística.  
 
+```python linenums="1"
+
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import classification_report, confusion_matrix
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, stratify=y, random_state=42
+    )
+
+    model = LogisticRegression(max_iter=200, solver="liblinear")
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+    print(classification_report(y_test, y_pred))
+```
+
+## Visualizaciones
 ![Visualizaciones](../assets/UT1-TA4.png){ width="720" }
 
 !!! note "Nota"

@@ -32,7 +32,15 @@ En la primera parte se revisaron las métricas de error para regresión:
 - **R²** evalúa la proporción de varianza explicada.  
 - **MAPE** expresa el error en porcentaje, útil en escalas diferentes.  
 
-En la segunda parte se aplicó la **Regresión Logística** al problema de clasificación de tumores. Se revisaron métricas de clasificación como `accuracy`, `precision`, `recall`, `f1-score` y la matriz de confusión, destacando la importancia de distinguir entre falsos positivos y falsos negativos en contextos médicos.  
+**Regresión Logística:**  
+- Aplicada a la clasificación de tumores.  
+- Métricas principales:  
+  - **Accuracy:** porcentaje de aciertos.  
+  - **Precision:** predicciones positivas correctas.  
+  - **Recall:** detección de positivos reales.  
+  - **F1-score:** balance entre precision y recall.  
+  - **Matriz de confusión:** distribución de aciertos y errores.  
+- Se destacó el riesgo de **falsos negativos** en diagnóstico médico (clasificar un tumor maligno como benigno).  
 
 Se elaboró una **tabla comparativa** entre regresión lineal y logística, resaltando:  
 - La regresión lineal predice valores continuos (ej. precio de una casa).  
@@ -40,10 +48,31 @@ Se elaboró una **tabla comparativa** entre regresión lineal y logística, resa
 - Cada modelo tiene métricas específicas y rangos de salida diferentes.  
 
 ## Evidencias
-- Definiciones de métricas de error y clasificación completadas.  
-- Implementación de regresión lineal con evaluación por MAE, RMSE y R².  
-- Implementación de regresión logística con matriz de confusión y clasificación de tumores.  
-- Tabla comparativa entre ambos modelos.  
+- Tabla comparativa entre regresión lineal y logística:  
+
+| **Aspecto**        | **Regresión Lineal**                | **Regresión Logística**                     |
+|---------------------|-------------------------------------|---------------------------------------------|
+| Qué predice         | Valores numéricos continuos         | Categorías (clases)                         |
+| Ejemplo de uso      | Precio de una casa                  | Tumor maligno/benigno                       |
+| Rango de salida     | -∞ a +∞                             | Probabilidades entre 0 y 1                  |
+| Métricas principales| MAE, RMSE, R²                       | Accuracy, Precision, Recall, F1, AUC        |
+
+
+```python linenums="1"
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.metrics import mean_absolute_error, accuracy_score, classification_report
+
+# Ejemplo de regresión lineal
+lin_model = LinearRegression().fit(X_train_reg, y_train_reg)
+y_pred_reg = lin_model.predict(X_test_reg)
+print("MAE:", mean_absolute_error(y_test_reg, y_pred_reg))
+
+# Ejemplo de regresión logística
+log_model = LogisticRegression(max_iter=200, solver="liblinear").fit(X_train_clf, y_train_clf)
+y_pred_clf = log_model.predict(X_test_clf)
+print(classification_report(y_test_clf, y_pred_clf))
+```
+
 
 
 !!! note "Nota"

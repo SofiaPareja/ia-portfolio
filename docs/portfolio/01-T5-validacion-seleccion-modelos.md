@@ -45,6 +45,25 @@ Finalmente, se reflexionó sobre riesgos como el **data leakage** (información 
 - Ejemplo de GridSearchCV vs RandomizedSearchCV.  
 - Reflexiones sobre explicabilidad y decisiones prácticas en modelos educativos.  
 
+
+```python linenums="1"
+from sklearn.model_selection import StratifiedKFold, cross_val_score, GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+
+# Validación cruzada
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+rf = RandomForestClassifier(random_state=42)
+scores = cross_val_score(rf, X, y, cv=cv, scoring="accuracy")
+print(f"Accuracy: {scores.mean():.2%} ± {scores.std():.2%}")
+
+# Optimización de hiperparámetros
+param_grid = {"n_estimators": [100, 200], "max_depth": [None, 10, 20]}
+grid = GridSearchCV(rf, param_grid, cv=cv, scoring="accuracy")
+grid.fit(X, y)
+print("Mejor configuración:", grid.best_params_)
+```
+
+## Visualizaciones
 ![Comparación de Modelos De Clasificación](../assets/accuracy-UT1-TA5.png){ width="720" }
 
 ![Arboles de Random Forest](../assets/UT1_TA5_Random_Forest.png){ width="720" }
