@@ -1,9 +1,9 @@
 ---
-title: "De Perceptrón a Redes Neuronales"
+title: "Del perceptrón al aprendizaje profundo: cómo las redes neuronales aprendieron a resolver XOR"
 date: 2025-10-05
 ---
 
-# De Perceptrón a Redes Neuronales
+# Del perceptrón al aprendizaje profundo: cómo las redes neuronales aprendieron a resolver XOR
 
 ## Contexto
 En esta práctica se exploró la evolución de los modelos de aprendizaje supervisado desde el **perceptrón simple** hasta las **redes neuronales multicapa (MLP)**, analizando tanto sus fundamentos teóricos como su implementación práctica en distintos frameworks: *scikit-learn*, *TensorFlow* y *PyTorch Lightning*.  
@@ -28,13 +28,16 @@ El objetivo fue comprender cómo el aumento de capas y funciones de activación 
 | Experimentos con PyTorch Lightning   | 45m   | Entrenamiento modular, reproducible y limpio         |
 | Reflexión y conexión entre frameworks| 30m   | Comparación técnica y conceptual                     |
 
+---
+
 ## Desarrollo
-**Parte 1: Perceptrón simple (AND, OR, NOT, XOR)**  
-- Los modelos AND, OR y NOT fueron correctamente resueltos, al ser **linealmente separables**.  
-- El modelo XOR no fue posible con un solo perceptrón, confirmando su **no linealidad**.  
+
+### Parte 1: Perceptrón simple (AND, OR, NOT, XOR)
+- Los modelos **AND**, **OR** y **NOT** fueron correctamente resueltos, al ser **linealmente separables**.  
+- El modelo **XOR** no fue posible con un solo perceptrón, confirmando su **no linealidad**.  
 - Se introdujo el concepto de **frontera de decisión lineal** y su limitación en el plano 2D.
 
-### Decision Boundary: Perceptrón vs MLP
+#### Frontera de decisión: Perceptrón vs MLP
 
 ![Frontera de decisión - Perceptrón vs MLP](../assets/boundary_perceptron.png){ width="700" }
 
@@ -42,11 +45,25 @@ El objetivo fue comprender cómo el aumento de capas y funciones de activación 
     A la izquierda, el perceptrón simple traza una frontera lineal incapaz de separar XOR.  
     A la derecha, el MLP crea una frontera **no lineal (curva)** que combina múltiples neuronas, resolviendo el problema.
 
+---
 
-**Parte 2: MLP con scikit-learn**  
-- Se entrenó un **MLPClassifier** con una capa oculta y función de activación *relu*.  
-- Se visualizó la **superficie de decisión** y se verificó que el modelo logra separar correctamente el patrón XOR.  
-- Se discutió la diferencia entre una red simple y una red profunda.
+### Parte 2: MLP con *scikit-learn*
+- Se entrenó un **MLPClassifier** con una capa oculta y función de activación *ReLU*.  
+- Se verificó que el modelo logra separar correctamente el patrón XOR.  
+- Se discutió la diferencia entre una red simple (una capa oculta) y una red profunda (múltiples capas).
+
+```python linenums="1"
+from sklearn.neural_network import MLPClassifier
+import numpy as np
+
+X = np.array([[0,0],[0,1],[1,0],[1,1]])
+y = np.array([0,1,1,0])
+
+mlp = MLPClassifier(hidden_layer_sizes=(2,), activation='relu', max_iter=5000, random_state=42)
+mlp.fit(X, y)
+print("Predicciones:", mlp.predict(X))
+```
+
 
 **Parte 3: TensorFlow y PyTorch Lightning**  
 - En TensorFlow/Keras se construyó una red neuronal desde cero, configurando:
@@ -56,6 +73,7 @@ El objetivo fue comprender cómo el aumento de capas y funciones de activación 
 
 ## Curvas de entrenamiento en TensorFlow
 ![Curvas de perdida y precision](../assets/curvas_de_entrenamiento.png) {width="720"}
+
 !!! note "Analisis"
     Las curvas de entrenamiento muestran que:
     - La pérdida de entrenamiento (**Training Loss**) disminuye progresivamente, señal de aprendizaje.
@@ -82,45 +100,19 @@ El objetivo fue comprender cómo el aumento de capas y funciones de activación 
 | 🏭 Producción | `TensorFlow / Keras` | Control de arquitectura, GPU y despliegue |
 | 🔬 Investigación | `PyTorch Lightning` | Flexibilidad y limpieza de código |
 
-## Evidencias
-- Entrenamiento del perceptrón simple (AND, OR, NOT).  
-- Ejemplo de XOR no lineal y visualización de la frontera fallida.  
-- Superficie de decisión del MLP resolviendo XOR.  
-- Curvas de aprendizaje (loss vs val_loss) en TensorFlow.  
-- Comparación de frameworks y funciones de activación.
-
-### Superficie de decisión del MLP
-[![Visualización del MLP resolviendo XOR](../assets/mlp_xor_surface.png){ width="280" }](../assets/mlp_xor_surface.png)
-
-```python linenums="1"
-# Ejemplo: MLP para resolver XOR en sklearn
-from sklearn.neural_network import MLPClassifier
-import numpy as np
-
-X = np.array([[0,0],[0,1],[1,0],[1,1]])
-y = np.array([0,1,1,0])
-
-mlp = MLPClassifier(hidden_layer_sizes=(2,), activation='relu', max_iter=5000, random_state=42)
-mlp.fit(X, y)
-```
-
-print("Predicciones:", mlp.predict(X))
-
-!!! note "Resultados"
-El modelo logró predecir correctamente los cuatro casos del XOR, demostrando que una capa oculta y una función de activación no lineal bastan para resolver el problema.
-
-???+ info "Conexiones con otras unidades"
-- Con Titanic (Unidad 1): ambos aplican clasificación supervisada y análisis de variables predictoras.
-- Con Regresión Logística (Unidad 2): se profundiza en funciones de activación y entrenamiento por lotes.
-- Con Validación de Modelos (Unidad 3): se retoma la importancia de reproducibilidad y estabilidad.
-
-## Evidencias
-
+### Reflexión
 Esta práctica permitió comprender cómo una simple modificación en la arquitectura (añadir una capa oculta) cambia la capacidad de representación del modelo.
-También reforzó la diferencia entre frameworks: scikit-learn como herramienta rápida de prototipado, TensorFlow para control avanzado y PyTorch Lightning para investigación reproducible.
+También reforzó la diferencia entre frameworks:
+
+- scikit-learn como herramienta rápida de prototipado.
+
+- TensorFlow para control avanzado.
+
+- PyTorch Lightning para investigación reproducible.
 
 Aprendí que la elección del framework depende del propósito: velocidad, control o escalabilidad.
-La práctica integró conceptos de las unidades previas y fomentó una visión completa del flujo de aprendizaje automático.
+La práctica integró conceptos de unidades previas y consolidó una visión completa del flujo de aprendizaje automático.
+
 
 ## Checklist
 - [x] Implementación de perceptrón simple 
@@ -128,3 +120,5 @@ La práctica integró conceptos de las unidades previas y fomentó una visión c
 - [x] MLP con sklearn y visualización de resultados  
 - [x] Red neuronal con TensorFlow
 - [x] Entrenamiento modular con PyTorch Lightning
+- [x] Comparación de frameworks
+- [x] Reflexión integradora entre unidades
